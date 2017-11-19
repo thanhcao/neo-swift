@@ -132,7 +132,7 @@ public class NeoClient {
         }
     }
     
-    func sendRequest(_ method: RPCMethod, params: [Any]?, completion: @escaping (NeoClientResult<JSONDictionary>) -> ()) {
+    public func sendRequest(_ method: RPCMethod, params: [Any]?, completion: @escaping (NeoClientResult<JSONDictionary>) -> ()) {
         guard let url = URL(string: seed) else {
             completion(.failure(.invalidSeed))
             return
