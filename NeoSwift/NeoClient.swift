@@ -9,7 +9,7 @@
 import Foundation
 
 
-typealias JSONDictionary = [String : Any]
+public typealias JSONDictionary = [String : Any]
 
 public enum NeoClientError: Error {
     case invalidSeed, invalidBodyRequest, invalidData, invalidRequest, noInternet
@@ -69,6 +69,26 @@ public class NEONetworkMonitor {
     
 }
 
+public enum RPCMethod: String {
+    case getBestBlockHash = "getbestblockhash"
+    case getBlock = "getblock"
+    case getBlockCount = "getblockcount"
+    case getBlockHash = "getblockhash"
+    case getConnectionCount = "getconnectioncount"
+    case getTransaction = "getrawtransaction"
+    case getTransactionOutput = "gettxout"
+    case getUnconfirmedTransactions = "getrawmempool"
+    case sendTransaction = "sendrawtransaction"
+    case validateAddress = "validateaddress"
+    case getAccountState = "getaccountstate"
+    case getAssetState = "getassetstate"
+    case getPeers = "getpeers"
+    //The following routes can't be invoked by calling an RPC server
+    //We must use the wrapper for the nodes made by COZ
+    case getBalance = "getbalance"
+    case invokeContract = "invokescript"
+}
+
 public class NeoClient {
     public var network: Network = .test
     public var seed = "http://seed1.neo.org:10332"
@@ -76,26 +96,6 @@ public class NeoClient {
     public static let sharedTest = NeoClient(network: .test)
     public static let sharedMain = NeoClient(network: .main)
     private init() {}
-    
-    enum RPCMethod: String {
-        case getBestBlockHash = "getbestblockhash"
-        case getBlock = "getblock"
-        case getBlockCount = "getblockcount"
-        case getBlockHash = "getblockhash"
-        case getConnectionCount = "getconnectioncount"
-        case getTransaction = "getrawtransaction"
-        case getTransactionOutput = "gettxout"
-        case getUnconfirmedTransactions = "getrawmempool"
-        case sendTransaction = "sendrawtransaction"
-        case validateAddress = "validateaddress"
-        case getAccountState = "getaccountstate"
-        case getAssetState = "getassetstate"
-        case getPeers = "getpeers"
-        //The following routes can't be invoked by calling an RPC server
-        //We must use the wrapper for the nodes made by COZ
-        case getBalance = "getbalance"
-        case invokeContract = "invokescript"
-    }
     
     enum apiURL: String {
         case getBalance = "address/balance/"
