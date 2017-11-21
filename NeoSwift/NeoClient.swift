@@ -89,7 +89,7 @@ public enum RPCMethod: String {
     case invokeContract = "invokescript"
 }
 
-public class NeoClient {
+open class NeoClient {
     public var network: Network = .test
     public var seed = "http://seed1.neo.org:10332"
     public var fullNodeAPI = "http://testnet-api.wallet.cityofzion.io/v2/"
