@@ -172,7 +172,7 @@ open class NeoClient {
         task.resume()
     }
     
-    func sendFullNodeRequest(_ url: String, params: [Any]?, completion :@escaping (NeoClientResult<JSONDictionary>) -> ()) {
+    open func sendFullNodeRequest(_ url: String, params: [Any]?, completion :@escaping (NeoClientResult<JSONDictionary>) -> ()) {
         let request = NSMutableURLRequest(url: URL(string: url)!)
         request.httpMethod = "GET"
         
@@ -376,20 +376,19 @@ open class NeoClient {
     public func getAssets(for address: String, params: [Any]?, completion: @escaping(NeoClientResult<Assets>) -> ()) {
         let url = fullNodeAPI + apiURL.getBalance.rawValue + address
         sendFullNodeRequest(url, params: params) { result in
-            
             switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let response):
-                let decoder = JSONDecoder()
-                guard let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                    let assets = try? decoder.decode(Assets.self, from: data) else {
-                        completion(.failure(.invalidData))
-                        return
-                }
-                
-                let result = NeoClientResult.success(assets)
-                completion(result)
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let response):
+                    let decoder = JSONDecoder()
+                    guard let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
+                        let assets = try? decoder.decode(Assets.self, from: data) else {
+                            completion(.failure(.invalidData))
+                            return
+                    }
+                    
+                    let result = NeoClientResult.success(assets)
+                    completion(result)
             }
         }
     }
